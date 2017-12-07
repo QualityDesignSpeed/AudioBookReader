@@ -16,7 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BookPlayer"></activity>
+        <activity android:name=".BookPlayer" />
+        <activity
+            android:name=".FSViewer"
+            android:label="@string/title_activity_fsviewer"></activity>
     </application>
 
 </manifest>
