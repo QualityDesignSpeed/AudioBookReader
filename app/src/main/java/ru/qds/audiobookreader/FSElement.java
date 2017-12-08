@@ -9,12 +9,25 @@ public class FSElement
     private String name;
     private String path;
     private Boolean dir;
+    private Boolean audio;
+    private String[] types={"mp3"};
     FSElement(String path, Boolean dir)
     {
         this.path = path;
-        this.dir=dir;
+        this.dir = dir;
         String[] sppath = path.split("/");
         this.name = sppath[sppath.length-1];
+        String[] sppathtype = path.split(".");
+        if(!dir) {
+            for (int i = 0; i < types.length; i++)//&&!audio
+            {
+                String a = types[0];
+               /* if (types[0].equalsIgnoreCase(sppathtype[1])) ;
+                {
+                    audio = true;
+                }*/
+            }
+        }
     }
 
     public String getName() {
@@ -33,11 +46,19 @@ public class FSElement
         this.path = path;
     }
 
-    public Boolean getDir() {
+    public Boolean isDir() {
         return dir;
     }
 
     public void setDir(Boolean dir) {
         this.dir = dir;
+    }
+
+    public Boolean isAudio() {
+        return audio;
+    }
+
+    public void setAudio(Boolean audio) {
+        this.audio = audio;
     }
 }

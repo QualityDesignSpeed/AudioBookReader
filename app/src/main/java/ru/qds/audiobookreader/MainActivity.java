@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_two);
-        
+
         books = new ArrayList<>();
         books.add(new Book(1, "книга 1", "путь к книге1", (float) 50.0, new Time(1, 5, 20), new Time(1, 5, 20)));
         books.add(new Book(1, "книга 2", "путь к книге2", (float) 50.0, new Time(1, 5, 20), new Time(1, 5, 20)));
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add:
                 Intent intent = new Intent(MainActivity.this, FSViewer.class);
-                intent.putExtra("path", "/");
+                intent.putExtra("path", "/sdcard");
                 startActivity(intent);
                 return true;
         }
