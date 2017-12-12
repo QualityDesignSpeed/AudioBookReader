@@ -1,12 +1,10 @@
 package ru.qds.audiobookreader;
 
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import java.sql.Time;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +16,9 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
+import ru.qds.audiobookreader.model.Book;
+import ru.qds.audiobookreader.model.DBWorker;
+
 public class FSViewer extends AppCompatActivity {
 
     private ArrayList<FSElement> elements;
@@ -25,7 +26,8 @@ public class FSViewer extends AppCompatActivity {
     private String path;
     private TextView tv_path;
     private ImageButton fs_back_button;
-    private String prev_path;
+    private MediaMetadataRetriever retriever;
+    private DBWorker db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class FSViewer extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent pf = getIntent();
+        retriever = new MediaMetadataRetriever();
+        db = new DBWorker(this);
         path = pf.getStringExtra("path");
         tv_path = (TextView) findViewById(R.id.path);
         fs_back_button = (ImageButton) findViewById(R.id.back_btn);
@@ -67,6 +71,18 @@ public class FSViewer extends AppCompatActivity {
             tv_path.setText(new_path);
             this.path = new_path;
         }
+        else if(elements.get(i).isAudio())
+        {
+            retriever.setDataSource(elements.get(i).getPath());
+            long dur = Long.parseLong(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+            Book book = new Book();
+            book.setName(elements.get(i).getName());
+            book.setPath(elements.get(i).getPath());
+            book.setCurTime(new Time(0));
+            book.setFulltime(new Time(dur));
+            book.setPercent(0);
+            db.addBook(book);
+        }
         else Toast.makeText(this, "Unsupported file type", Toast.LENGTH_SHORT).show();
     }
     public void updateData(String path)
@@ -78,6 +94,7 @@ public class FSViewer extends AppCompatActivity {
             fsListView.setAdapter(new FSListAdapter(FSViewer.this, elements));
             tv_path.setText(path);
             this.path = path;
+
         }
         else Toast.makeText(this, "Unsupported file type", Toast.LENGTH_SHORT).show();
     }

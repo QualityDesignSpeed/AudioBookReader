@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -50,10 +51,11 @@ public class FSListAdapter extends BaseAdapter {
         {
             iview.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_folder_black_24dp));
         }
-       /* else if(elements.get(i).isAudio())
+        else if(elements.get(i).isAudio())
         {
             iview.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_music_note_black_24dp));
-        }*/
+            Toast.makeText(context, elements.get(i).getName(), Toast.LENGTH_SHORT).show();
+        }
 
         name.setText(elements.get(i).getName());
         return vw;

@@ -13,19 +13,18 @@ public class FSElement
     private String[] types={"mp3"};
     FSElement(String path, Boolean dir)
     {
+        this.audio = false;
         this.path = path;
         this.dir = dir;
         String[] sppath = path.split("/");
         this.name = sppath[sppath.length-1];
-        String[] sppathtype = path.split(".");
         if(!dir) {
-            for (int i = 0; i < types.length; i++)//&&!audio
+            for (int i = 0; i < types.length&&!audio; i++)//
             {
-                String a = types[0];
-               /* if (types[0].equalsIgnoreCase(sppathtype[1])) ;
+               if (name.endsWith(types[0]))
                 {
                     audio = true;
-                }*/
+                }
             }
         }
     }

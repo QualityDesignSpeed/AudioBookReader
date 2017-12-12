@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -27,11 +28,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_two);
 
         books = new ArrayList<>();
-        books.add(new Book(1, "книга 1", "путь к книге1", (float) 50.0, new Time(1, 5, 20), new Time(1, 5, 20)));
+        /*books.add(new Book(1, "книга 1", "путь к книге1", (float) 50.0, new Time(1, 5, 20), new Time(1, 5, 20)));
         books.add(new Book(1, "книга 2", "путь к книге2", (float) 50.0, new Time(1, 5, 20), new Time(1, 5, 20)));
         books.add(new Book(1, "книга 3", "путь к книге3", (float) 50.0, new Time(1, 5, 20), new Time(1, 5, 20)));
-        books.add(new Book(1, "книга 4", "путь к книге4", (float) 50.0, new Time(1, 5, 20), new Time(1, 5, 20)));
+        books.add(new Book(1, "книга 4", "путь к книге4", (float) 50.0, new Time(1, 5, 20), new Time(1, 5, 20)));*/
         main_list = (ListView) findViewById(R.id.main_list);
+        db = new DBWorker(getApplicationContext());
+        books = db.getAllBooks();
         main_list.setAdapter(new MainListAdapter(MainActivity.this, books));
         main_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -41,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //db = new DBWorker(getApplicationContext());
-       // books = db.getAllBooks();
+
 
     }
 

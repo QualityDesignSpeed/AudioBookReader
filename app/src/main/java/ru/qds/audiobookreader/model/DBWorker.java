@@ -3,6 +3,8 @@ package ru.qds.audiobookreader.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -55,15 +57,31 @@ public class DBWorker {
     {
         open();
         Book ret = null;
-        Cursor query = db.rawQuery("SELECT * FROM books", null);
+        Cursor query = db.rawQuery("SELECT * FROM books WHERE id="+id, null);
         if(query.moveToFirst())
         {
             ret = new Book(query.getInt(0), query.getString(1), query.getString(2),
                         query.getFloat(3), Time.valueOf(query.getString(4)), Time.valueOf(query.getString(5)));
+            Log.v("ERROR", ret.getName()+" "+ret.getId()+"");
         }
         query.close();
         close();
         return ret;
+    }
+
+    public void addBook(Book book)
+    {
+        if(book != null)
+        {
+            open();
+            Log.v("ERROR", "INSERT INTO books (name, path, percent, fulltime, curtime) VALUES ('"+
+                    book.getName()+"','"+book.getPath()+"',"+book.getPercent()+",'"+book.getFulltime().toString()+"','"+
+                    book.getCurTime().toString()+"')");
+            db.execSQL("INSERT INTO books (name, path, percent, fulltime, curtime) VALUES ('"+
+            book.getName()+"','"+book.getPath()+"',"+book.getPercent()+",'"+book.getFulltime().toString()+"','"+
+                    book.getCurTime().toString()+"')");
+            close();
+        }
     }
 
 
